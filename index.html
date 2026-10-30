@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Logistics Hub | Shipping Operations Dashboard</title>
+    <meta name="description" content="Manage shipping operations, monitor vehicles, containers, invoices, and towing activity from the Global Logistics Hub dashboard.">
+    <meta property="og:title" content="Global Logistics Hub | Shipping Operations Dashboard">
+    <meta property="og:description" content="Manage shipping operations, monitor vehicles, containers, invoices, and towing activity.">
+    <meta property="og:image" content="/social-preview.svg">
+    <meta property="og:image:type" content="image/svg+xml">
+    <meta property="og:site_name" content="Global Logistics Hub">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Global Logistics Hub | Shipping Operations Dashboard">
+    <meta name="twitter:description" content="Manage shipping operations, monitor vehicles, containers, invoices, and towing activity.">
+    <meta name="twitter:image" content="/social-preview.svg">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer">
+    <style>
+        body {
+            background-color: #0d1117;
+        }
+        .glow-accent {
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+        }
+        .glow-ring {
+            background: conic-gradient(#3b82f6 0% 65%, #ef4444 65% 100%);
+        }
+        .dashboard-panel {
+            background: linear-gradient(145deg, #161b22, #121820);
+        }
+    </style>
+</head>
+<body class="text-slate-200 font-sans min-h-screen">
+
+    <!-- Top Navigation Header -->
+    <header class="bg-[#161b22] border-b border-slate-800 sticky top-0 z-50 px-4 py-2.5 flex items-center justify-between">
+        <!-- Logo and Brand -->
+        <div class="flex items-center space-x-3">
+            <div class="bg-blue-600 p-2 rounded-lg flex items-center justify-center text-white font-bold text-xl tracking-wider glow-accent">
+                G
+            </div>
+            <div>
+                <h1 class="text-md font-bold tracking-wide uppercase text-white">Global</h1>
+                <p class="text-xs text-slate-400 tracking-widest font-medium">Logistics Hub</p>
+            </div>
+        </div>
+
+        <!-- Global Search Bar -->
+        <div class="flex-1 max-w-md mx-5">
+            <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+                <input id="shipment-search" type="search" aria-label="Search shipments, vehicles, or ports" placeholder="Search for any shipment, vehicle, or port..." 
+                       class="w-full bg-[#0d1117] text-slate-300 text-sm pl-10 pr-4 py-2 rounded-lg border border-slate-700 focus:outline-none focus:border-blue-500 transition-colors">
+            </div>
+        </div>
+
+        <!-- User Profile & Actions Area -->
+        <div class="flex items-center space-x-4">
+            <!-- Notifications Notification -->
+            <div class="relative cursor-pointer">
+                <i class="fa-solid fa-bell text-slate-400 text-lg hover:text-slate-200"></i>
+                <span class="absolute -top-1 -right-1 bg-red-500 w-2 h-2 rounded-full"></span>
+            </div>
+            
+            <!-- User Info Block -->
+            <div class="flex items-center space-x-3 border-l border-slate-800 pl-4">
+                <div class="text-right">
+                    <h4 class="text-sm font-semibold text-white">John D.</h4>
+                    <p class="text-xs text-slate-500 font-medium">Co-Owner</p>
+                </div>
+                <div class="w-9 h-9 rounded-full bg-slate-700 flex items-center justify-center text-slate-300 border border-slate-600 font-bold">
+                    JD
+                </div>
+            </div>
+
+            <!-- Apps Button -->
+            <a href="/customer-portal/" class="text-slate-400 hover:text-white flex items-center space-x-1 text-xs uppercase font-bold tracking-wider">
+                <i class="fa-solid fa-user"></i>
+                <span>Customer Portal</span>
+            </a>
+
+            <!-- Apps Button -->
+            <button class="text-slate-400 hover:text-white flex items-center space-x-1 text-xs uppercase font-bold tracking-wider">
+                <i class="fa-solid fa-table-cells text-base"></i>
+                <span>Apps</span>
+            </button>
+
+            <!-- Sign Out Button -->
+            <button class="text-slate-500 hover:text-red-400 flex items-center space-x-1 text-xs uppercase font-bold tracking-wider">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Log Out</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Grid Layout -->
+    <main class="p-4 max-w-[1280px] mx-auto space-y-4">
+        
+        <!-- Welcome Title and Header Content Actions -->
+        <div class="flex items-center justify-between">
+            <div>
+                <h2 class="text-xl font-bold text-white tracking-wide">Welcome back, JOHN D.,</h2>
+                <div class="flex items-center space-x-2 text-xs text-slate-500 font-medium mt-1">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Home</span>
+                    <span>/</span>
+                    <span>Dashboard</span>
+                    <span>/</span>
+                    <span class="text-slate-400">Analytics</span>
+                </div>
+                <p class="mt-2 text-xs text-slate-400">Monitor vehicle movement, update shipment stages, and find active orders from one dashboard.</p>
+            </div>
+            <div class="flex space-x-3">
+                <button class="bg-blue-600 text-white font-semibold text-sm px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors shadow-md flex items-center space-x-2">
+                    <i class="fa-solid fa-file-invoice"></i>
+                    <span>Open Statement</span>
+                </button>
+                <button id="add-shipment-button" type="button" class="bg-slate-800 text-slate-200 font-semibold text-sm px-4 py-2 rounded-lg border border-slate-700 hover:bg-slate-700 transition-colors flex items-center space-x-2">
+                    <i class="fa-solid fa-boxes-stacked"></i>
+                    <span>Add shipment</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Upper Row: 4 Metric Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+            <!-- Metric 1: All Vehicles -->
+            <div class="dashboard-panel border border-slate-800 rounded-lg p-3 flex items-center justify-between glow-accent">
+                <div>
+                    <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">All Vehicles</p>
+                    <h3 id="all-vehicles-count" class="text-2xl font-extrabold text-white mt-1">--</h3>
+                    <p class="text-xs text-blue-400 font-medium mt-1">Unique vehicles in active shipments</p>
+                </div>
+                <div class="text-blue-500 bg-blue-500/10 p-3 rounded-lg text-lg">
+                    <i class="fa-solid fa-car"></i>
+                </div>
+            </div>
+
+            <!-- Metric 2: At Warehouse -->
+            <div class="dashboard-panel border border-slate-800 rounded-lg p-3 flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">At Warehouse</p>
+                    <h3 id="warehouse-count" class="text-2xl font-extrabold text-white mt-1">--</h3>
+                    <p class="text-xs text-slate-500 font-medium mt-1">Awaiting loading or dispatch</p>
+                </div>
+                <div class="text-purple-500 bg-purple-500/10 p-3 rounded-lg text-lg">
+                    <i class="fa-solid fa-warehouse"></i>
+                </div>
+            </div>
+
+            <!-- Metric 3: On Load -->
+            <div class="dashboard-panel border border-slate-800 rounded-lg p-3 flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">On Load</p>
+                    <h3 id="on-load-count" class="text-2xl font-extrabold text-white mt-1">--</h3>
+                    <p class="text-xs text-slate-500 font-medium mt-1">Currently being loaded</p>
+                </div>
+                <div class="text-red-500 bg-red-500/10 p-3 rounded-lg text-lg">
+                    <i class="fa-solid fa-truck-ramp-box"></i>
+                </div>
+            </div>
+
+            <!-- Metric 4: Shipped -->
+            <div class="dashboard-panel border border-slate-800 rounded-lg p-3 flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Shipped</p>
+                    <h3 id="shipped-count" class="text-2xl font-extrabold text-white mt-1">--</h3>
+                    <p class="text-xs text-emerald-400 font-medium mt-1">Departed from the origin port</p>
+                </div>
+                <div class="text-emerald-500 bg-emerald-500/10 p-3 rounded-lg text-lg">
+                    <i class="fa-solid fa-ship"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lower Row: Financial Balance Sheet & Operational Status Matrix -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            
+            <!-- Left Side Element: Financial Balance Sheet Widget -->
+            <div class="dashboard-panel border border-slate-800 rounded-lg p-4 flex flex-col justify-between">
+                <div class="flex items-center space-x-2 border-b border-slate-800 pb-3">
+                    <i class="fa-solid fa-scale-balanced text-blue-500"></i>
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-white">Balance Sheet</h3>
+                </div>
+
+                <!-- Radial Data Display Frame -->
+                <div class="flex flex-col items-center justify-center my-4 relative">
+                    <div class="w-36 h-36 rounded-full glow-ring flex items-center justify-center p-3">
+                        <div class="w-full h-full bg-[#161b22] rounded-full flex flex-col items-center justify-center">
+                            <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">Balance</span>
+                            <span class="text-3xl font-black text-white mt-1">1</span>
+                        </div>
+                    </div>
+                    <!-- Tooltip Element -->
+                    <div class="absolute bottom-0 bg-slate-900 border border-slate-700 px-2 py-1 rounded text-[10px] font-medium text-slate-300 shadow-xl">
+                        BALANCE: 1 <span class="text-slate-500 font-normal ml-1">Current position</span>
+                    </div>
+                </div>
+
+                <div class="bg-[#0d1117] rounded-lg p-3 border border-slate-800/80 text-center text-xs text-slate-500 font-medium">
+                    Balance compares current warehouse activity with completed departures.
+                </div>
+            </div>
+
+            <!-- Right Side Element: Sub-Navigation and Data Overview Matrix -->
+            <section class="lg:col-span-2 space-y-4" aria-labelledby="operations-heading">
+                
+                <!-- Action Tabs Row -->
+                <div class="flex flex-wrap gap-1.5">
+                    <a href="vehicles.html" class="inline-flex items-center gap-1 bg-blue-600 text-white px-3 py-1.5 rounded text-[10px] uppercase font-bold shadow-sm"><i class="fa-solid fa-car"></i> List of my vehicles</a>
+                    <a href="containers.html" class="inline-flex items-center gap-1 bg-[#242a35] text-slate-300 px-3 py-1.5 rounded text-[10px] uppercase font-bold hover:bg-slate-700 transition-colors"><i class="fa-solid fa-box"></i> List of containers</a>
+                    <a href="towing.html" class="inline-flex items-center gap-1 bg-[#7c3aed] text-white px-3 py-1.5 rounded text-[10px] uppercase font-bold hover:bg-violet-600 transition-colors"><i class="fa-solid fa-truck-moving"></i> Towing list</a>
+                    <a href="rates.html" class="inline-flex items-center gap-1 bg-[#d97706] text-white px-3 py-1.5 rounded text-[10px] uppercase font-bold hover:bg-amber-600 transition-colors"><i class="fa-solid fa-tags"></i> Shipping rate</a>
+                    <a href="invoices.html" class="inline-flex items-center gap-1 bg-[#242a35] text-slate-300 px-3 py-1.5 rounded text-[10px] uppercase font-bold hover:bg-slate-700 transition-colors"><i class="fa-solid fa-receipt"></i> All invoices</a>
+                </div>
+
+                <div class="dashboard-panel border border-slate-800 rounded-lg overflow-hidden">
+                    <div class="flex items-center justify-between px-3 py-2.5 border-b border-slate-800">
+                        <div>
+                            <h3 id="operations-heading" class="text-sm font-bold uppercase tracking-wider text-white">Current Operations</h3>
+                            <p class="text-[10px] text-slate-500 mt-1">Search by vehicle, destination, reference, or status. Use the status menu to record progress.</p>
+                        </div>
+                        <a href="vehicles.html" class="text-xs text-blue-400 hover:text-blue-300 font-semibold">View all vehicles</a>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full min-w-[620px] text-left">
+                            <thead class="bg-[#0d1117] text-[10px] uppercase tracking-wider text-slate-500">
+                                <tr>
+                                    <th scope="col" class="px-5 py-3 font-semibold">Reference</th>
+                                    <th scope="col" class="px-5 py-3 font-semibold">Vehicle</th>
+                                    <th scope="col" class="px-5 py-3 font-semibold">Destination</th>
+                                    <th scope="col" class="px-5 py-3 font-semibold">Status</th>
+                                    <th scope="col" class="px-5 py-3 font-semibold">Updated</th>
+                                </tr>
+                            </thead>
+                            <tbody id="shipments-table-body" class="divide-y divide-slate-800 text-sm"></tbody>
+                        </table>
+                    </div>
+                    <div class="border-t border-slate-800 bg-[#0d1117]/60 px-3 py-2 text-[10px] text-slate-500">
+                        <span class="font-semibold text-slate-400">Status guide:</span>
+                        At warehouse = ready to schedule; On load = loading in progress; In transit = moving to destination; Shipped = departed.
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <dialog id="shipment-dialog" class="w-full max-w-md rounded-xl border border-slate-700 bg-[#161b22] p-0 text-slate-200 shadow-2xl backdrop:bg-slate-950/75">
+        <form id="shipment-form" class="p-6 space-y-4">
+            <div class="flex items-center justify-between">
+                <h2 class="text-lg font-bold text-white">Add shipment</h2>
+                <button type="button" id="close-dialog-button" aria-label="Close shipment form" class="text-slate-400 hover:text-white">&times;</button>
+            </div>
+            <label class="block text-sm font-medium">Vehicle
+                <input name="vehicle" required maxlength="100" placeholder="2024 Ford Ranger" class="mt-1 w-full rounded-lg border border-slate-700 bg-[#0d1117] px-3 py-2 text-white focus:border-blue-500 focus:outline-none">
+            </label>
+            <label class="block text-sm font-medium">Destination
+                <input name="destination" required maxlength="100" placeholder="Dubai, AE" class="mt-1 w-full rounded-lg border border-slate-700 bg-[#0d1117] px-3 py-2 text-white focus:border-blue-500 focus:outline-none">
+            </label>
+            <label class="block text-sm font-medium">Status
+                <select name="status" class="mt-1 w-full rounded-lg border border-slate-700 bg-[#0d1117] px-3 py-2 text-white focus:border-blue-500 focus:outline-none">
+                    <option>At warehouse</option>
+                    <option>On load</option>
+                    <option>In transit</option>
+                    <option>Shipped</option>
+                </select>
+            </label>
+            <p id="form-error" class="hidden text-sm text-red-400" role="alert"></p>
+            <button class="w-full rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700">Create shipment</button>
+        </form>
+    </dialog>
+
+    <script>
+        const statusClasses = {
+            "At warehouse": "bg-purple-500/10 text-purple-400",
+            "On load": "bg-amber-500/10 text-amber-400",
+            "In transit": "bg-blue-500/10 text-blue-400",
+            "Shipped": "bg-emerald-500/10 text-emerald-400"
+        };
+        const searchInput = document.querySelector("#shipment-search");
+        const tableBody = document.querySelector("#shipments-table-body");
+        const dialog = document.querySelector("#shipment-dialog");
+        const form = document.querySelector("#shipment-form");
+        const formError = document.querySelector("#form-error");
+
+        function formatUpdatedAt(value) {
+            return new Intl.DateTimeFormat("en", { dateStyle: "medium", timeStyle: "short" }).format(new Date(value));
+        }
+
+        function renderShipments(shipments) {
+            tableBody.replaceChildren(...shipments.map((shipment) => {
+                const row = document.createElement("tr");
+                row.className = "hover:bg-slate-800/40";
+                const cells = [
+                    [shipment.reference, "font-semibold text-white"],
+                    [shipment.vehicle, "text-slate-300"],
+                    [shipment.destination, "text-slate-400"],
+                    [formatUpdatedAt(shipment.updatedAt), "text-slate-500"]
+                ];
+                cells.forEach(([value, classes], index) => {
+                    const cell = row.insertCell(index);
+                    cell.className = `px-3 py-2.5 text-xs ${classes}`;
+                    cell.textContent = value;
+                });
+                const statusCell = row.insertCell(3);
+                statusCell.className = "px-3 py-2.5";
+                const status = document.createElement("select");
+                status.className = `rounded-full border-0 px-2.5 py-1 text-xs font-semibold outline-none ${statusClasses[shipment.status] || "bg-slate-500/10 text-slate-400"}`;
+                status.setAttribute("aria-label", `Update status for ${shipment.reference}`);
+                Object.keys(statusClasses).forEach((statusName) => {
+                    const option = new Option(statusName, statusName, false, statusName === shipment.status);
+                    status.add(option);
+                });
+                status.addEventListener("change", async () => {
+                    const response = await fetch(`/api/shipments/${encodeURIComponent(shipment.id)}`, {
+                        method: "PATCH",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ status: status.value })
+                    });
+                    if (!response.ok) {
+                        showLoadError(new Error("Unable to update shipment status."));
+                        return;
+                    }
+                    loadDashboard(searchInput.value).catch(showLoadError);
+                });
+                statusCell.append(status);
+                return row;
+            }));
+        }
+
+        async function loadDashboard(search = "") {
+            const [dashboardResponse, shipmentsResponse] = await Promise.all([
+                fetch("/api/dashboard"),
+                fetch(`/api/shipments?search=${encodeURIComponent(search)}`)
+            ]);
+            if (!dashboardResponse.ok || !shipmentsResponse.ok) throw new Error("Unable to load dashboard data.");
+            const { metrics } = await dashboardResponse.json();
+            document.querySelector("#all-vehicles-count").textContent = metrics.allVehicles;
+            document.querySelector("#warehouse-count").textContent = metrics.atWarehouse;
+            document.querySelector("#on-load-count").textContent = metrics.onLoad;
+            document.querySelector("#shipped-count").textContent = metrics.shipped;
+            renderShipments((await shipmentsResponse.json()).shipments);
+        }
+
+        let searchTimer;
+        searchInput.addEventListener("input", () => {
+            clearTimeout(searchTimer);
+            searchTimer = setTimeout(() => loadDashboard(searchInput.value).catch(showLoadError), 250);
+        });
+
+        function showLoadError(error) {
+            tableBody.innerHTML = '<tr><td colspan="5" class="px-5 py-4 text-red-400"></td></tr>';
+            tableBody.querySelector("td").textContent = error.message;
+        }
+
+        document.querySelector("#add-shipment-button").addEventListener("click", () => dialog.showModal());
+        document.querySelector("#close-dialog-button").addEventListener("click", () => dialog.close());
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            formError.classList.add("hidden");
+            const response = await fetch("/api/shipments", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(Object.fromEntries(new FormData(form)))
+            });
+            if (!response.ok) {
+                const { error } = await response.json();
+                formError.textContent = error || "Unable to create shipment.";
+                formError.classList.remove("hidden");
+                return;
+            }
+            form.reset();
+            dialog.close();
+            loadDashboard(searchInput.value).catch(showLoadError);
+        });
+
+        loadDashboard().catch(showLoadError);
+    </script>
+</body>
+</html>
